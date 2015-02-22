@@ -14,20 +14,18 @@
         var firstNewIndex=0, lastNewIndex=index;
         while(index >= 0){
           var tweet = streams.home[index];
-          var $tweet = $('<div></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message);
+          var $tweet = $('<div>@<a href="http://www.google.com">'+tweet.user+'</a>:'+tweet.message+'</div>');
           $tweet.appendTo($body);
           index -= 1;
         }
-        
+
         $body.append('<button>Refresh</button>');
         $('button').click(function(){
           firstNewIndex=lastNewIndex;
           lastNewIndex=streams.home.length-1;
           for (var i=firstNewIndex; i<=lastNewIndex; i++){
             var tweet=streams.home[i];
-            var $tweet= $('<div></div>');
-            $tweet.text('@' + tweet.user + ': ' + tweet.message);
+            var $tweet = $('<div>@<a href="http://www.google.com">'+tweet.user+'</a>:'+tweet.message+'</div>');
             $tweet.prependTo($body);
           }
       });
