@@ -3,35 +3,61 @@
   <head>
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
+    <link rel="stylesheet" href="twittler.css"/>
   </head>
   <body>
     <script>
 
       $(document).ready(function(){
         var $body = $('body');
+        $body.addClass("background");
         $body.html('');
+        $body.append('<h1>Twittler</h1>');
+        $body.append('<button>Refresh</button>');
+        $body.append('<p id="background"></p>');
         var index = streams.home.length - 1;
         var firstNewIndex=0, lastNewIndex=index;
         var currentTime= new Date();
         while(index >= 0){
           currentTime= new Date();
           var tweet = streams.home[index];
-          var $tweet = $('<div>@<a href="http://www.google.com">'+tweet.user+'</a>:'+tweet.message+'  '+currentTime.getHours()+':'+currentTime.getMinutes()+':'+currentTime.getSeconds()+ '</div>');
-          $tweet.appendTo($body);
+          var $tweet = $('<blockquote>@<a class="clickable" href="#">'+tweet.user+'</a>:'+tweet.message+'  '+tweet.created_at+'</blockquote>');
+          $tweet.appendTo($('p'));
           index -= 1;
+
         }
 
-        $body.append('<button>Refresh</button>');
+        
         $('button').click(function(){
           firstNewIndex=lastNewIndex+1;
           lastNewIndex=streams.home.length-1;
           for (var i=firstNewIndex; i<=lastNewIndex; i++){
             currentTime=new Date();
             var tweet=streams.home[i];
-            var $tweet = $('<div>@<a href="http://www.google.com">'+tweet.user+'</a>:'+tweet.message+'  '+currentTime.getHours()+':'+currentTime.getMinutes()+':'+currentTime.getSeconds()+ '</div>');
-            $tweet.prependTo($body);
+            var $tweet = $('<blockquote>@<a class="clickable" href="#">'+tweet.user+'</a>:'+tweet.message+'  '+tweet.created_at+ '</blockquote>');
+            $tweet.prependTo($('p'));
           }
-      });
+
+          $('.clickable').click(function(){
+          var user=($(this).html());
+          for (var i=0; i<streams.users[user].length; i++) {
+            var tweet= streams.users[user][i];
+            var $tweet= $('<blockquote id ="person">@<a class="clickable"  href="#">'+tweet.user+'</a>:'+tweet.message+'  '+tweet.created_at+ '</blockquote>');
+            $tweet.prependTo($('p'));
+            }
+          });
+        });
+        $('.clickable').click(function(){
+          var user=($(this).html());
+          for (var i=0; i<streams.users[user].length; i++) {
+            var tweet= streams.users[user][i];
+            var $tweet= $('<blockquote id ="person">@<a class="clickable" href="#">'+tweet.user+'</a>:'+tweet.message+'  '+tweet.created_at+ '</blockquote>');
+            $tweet.prependTo($('p'));
+            }
+          });
+
+        
+
       });
       
 
